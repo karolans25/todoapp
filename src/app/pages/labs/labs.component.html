@@ -1,103 +1,118 @@
 <div class="container">
-    <h1>Hola este es mi primer proyecto</h1>
-    <h2>{{ welcome }}</h2>
+  <h1>Hola este es mi primer proyecto</h1>
+  <h2>{{ welcome }}</h2>
 
-    <ul>
-    <li *ngFor="let task of tasks()">
+  <ul>
+    @for (task of tasks(); track task) {
+      <li>
         {{ task }}
-    </li>
-    </ul>
+      </li>
+    }
+  </ul>
 
-    <hr />
+  <hr />
 
-    <h2>{{ 'Hola '.repeat(4) }}</h2>
-    <p>La suma de 3 + 3 es {{ 3 + 3 }}</p>
-    <p>Hola soy {{ name() }} y mi edad es {{ age }} </p>
+  <h2>{{ 'Hola '.repeat(4) }}</h2>
+  <p>La suma de 3 + 3 es {{ 3 + 3 }}</p>
+  <p>Hola soy {{ name() }} y mi edad es {{ age }} </p>
 
-    <hr />
+  <hr />
 
-    <img [src]="person().avatar" alt="">
-    <!-- <input type="text" [value]="name"> -->
-    <input type="number" [value]="person().age">
-    <button [disabled]="disabled">Click me</button>
+  <img [src]="person().avatar" alt="">
+  <!-- <input type="text" [value]="name"> -->
+  <input type="number" [value]="person().age">
+  <button [disabled]="disabled">Click me</button>
+  <p>
+    person: {{ person().name }}
+  </p>
+
+  <hr />
+
+  <button (click)="clickHandler()" >click me</button>
+  <p></p>
+  <button (dblclick)="clickHandler()" >double click me</button>
+
+  <p>(change)</p>
+  <input type="number" [value]="person().age" (change)="changeHandler($event)">
+
+  <p>(change)</p>
+  <input type="text" [value]="person().name" (change)="changeHandler($event)">
+
+  <p>(keydown)</p>
+  <input type="text" [value]="person().name" (keydown)="keydownHandler($event)">
+
+  <p>(keydown shift t)</p>
+  <input type="text" [value]="person().name" (keydown.shift.t)="clickHandler()">
+
+  <hr />
+
+  <ul>
+    <p>total: {{ tasks().length }} </p>
+    @for (task of tasks(); track task; let i = $index) {
+      <li>
+        {{ i }} {{ task }}
+      </li>
+    }
+  </ul>
+
+
+  <hr />
+
+  <h1>Signals </h1>
+  <input type="text" [value]="person().name" (change)="changeHandler($event)">
+  <p>name: {{ person().name }}</p>
+
+  <input type="number" [value]="person().age" (change)="changeAge($event)">
+  <p>age: {{ person().age }}</p>
+
+  @if (person().name === 'Carolina' && person().age >= 18) {
     <p>
-        person: {{ person().name }}
+      Soy {{ person().name }} y soy mayor de edad.
     </p>
+  } @else {
+    Soy {{ person().name }} y soy menor de edad.
+  }
+  <!-- <input type="text" [value]="name()" (keydown)="keydownHandler($event)">
+  <p>name: {{ name() }}</p> -->
 
-    <hr />
+  <div>
+    @switch (person().name) {
+      @case ('Carolina') {
+        <p> Yo soy Carolina</p>
+      }
+      @case ('Nicolas') {
+        <p> Yo soy Nicolas</p>
+      }
+      @case ('Ana') {
+        <p> Yo soy Ana</p>
+      }
+      @default {
+        <p> Yo no soy alguien</p>
+      }
+    }
+  </div>
 
-    <button (click)="clickHandler()" >click me</button>
-    <p></p>
-    <button (dblclick)="clickHandler()" >double click me</button>
+  <hr />
 
-    <p>(change)</p>
-    <input type="number" [value]="person().age" (change)="changeHandler($event)">
+  <!-- <input type="color" [formControl]="colorCtrl">
+  <p>color: {{ colorCtrl.value }}</p> -->
+  <input type="color" [formControl]="colorCtrl">
+  <p>color: {{ colorCtrl.value }}</p>
 
-    <p>(change)</p>
-    <input type="text" [value]="person().name" (change)="changeHandler($event)">
+  <svg>
+    <g>
+      <rect x="0" y="0" height="100" width="100" [attr.fill]="colorCtrl.value"></rect>
+    </g>
+  </svg>
 
-    <p>(keydown)</p>
-    <input type="text" [value]="person().name" (keydown)="keydownHandler($event)">
+  <hr />
+  <input type="number" [formControl]="widthCtrl">
+  <span class="box" [style.width.px]="widthCtrl.value" [style.border-color]="colorCtrl.value"></span>
 
-    <p>(keydown shift t)</p>
-    <input type="text" [value]="person().name" (keydown.shift.t)="clickHandler()">
-
-    <hr />
-
-    <ul>
-        <p>total: {{ tasks().length }} </p>
-        <li *ngFor="let task of tasks(); index as i">
-            {{ i }} {{ task }}
-        </li>
-    </ul>
-
-
-    <hr />
-
-    <h1>Signals </h1>
-    <input type="text" [value]="person().name" (change)="changeHandler($event)">
-    <p>name: {{ person().name }}</p>
-
-    <input type="number" [value]="person().age" (change)="changeAge($event)">
-    <p>age: {{ person().age }}</p>
-
-    <p *ngIf="person().name === 'Carolina' && person().age >= 18; else elseBlock">
-        Soy {{ person().name }} y soy mayor de edad.
-    </p>
-    <!-- <input type="text" [value]="name()" (keydown)="keydownHandler($event)">
-    <p>name: {{ name() }}</p> -->    
-    <ng-template #elseBlock>
-        Soy {{ person().name }} y soy menor de edad.
-    </ng-template>
-
-    <div [ngSwitch]="person().name">
-        <p *ngSwitchCase="'Carolina'"> Yo soy Carolina</p>
-        <p *ngSwitchCase="'Nicolas'"> Yo soy Nicolas</p>
-        <p *ngSwitchCase="'Ana'"> Yo soy Ana</p>
-        <p *ngSwitchDefault> Yo no soy alguien</p>
-    </div>
-
-    <hr />
-
-    <!-- <input type="color" [formControl]="colorCtrl">
-    <p>color: {{ colorCtrl.value }}</p> -->
-    <input type="color" [formControl]="colorCtrl">
-    <p>color: {{ colorCtrl.value }}</p>
-
-    <svg>
-        <g>
-            <rect x="0" y="0" height="100" width="100" [attr.fill]="colorCtrl.value"></rect>
-        </g>
-    </svg>
-
-    <hr />
-    <input type="number" [formControl]="widthCtrl">
-    <span class="box" [style.width.px]="widthCtrl.value" [style.border-color]="colorCtrl.value"></span>
-
-    <hr />
-    <p>
-        <input type="text" [formControl]="nameCtrl"> <br />
-        <span class="message-error" [class.active]="nameCtrl.invalid && nameCtrl.touched">Nombre inválido</span>
-    </p>
-    <input type="text" >
+  <hr />
+  <p>
+    <input type="text" [formControl]="nameCtrl"> <br />
+    <span class="message-error" [class.active]="nameCtrl.invalid && nameCtrl.touched">Nombre inválido</span>
+  </p>
+  <input type="text" >
 </div>

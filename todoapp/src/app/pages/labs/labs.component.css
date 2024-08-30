@@ -1,0 +1,23 @@
+.container{
+    padding: 3rem;
+}
+
+.box{
+    height: 10px;
+    display: block;
+    background-color: blueviolet;
+    border: 5px solid blue;
+}
+
+.message-error{
+    background-color: red;
+    color: white;
+    opacity: 0;
+    transition: all linear .5s;
+    /* padding: 1rem; */
+}
+
+.message-error.active{
+    opacity: 1;
+    /* padding: 1rem; */
+}
